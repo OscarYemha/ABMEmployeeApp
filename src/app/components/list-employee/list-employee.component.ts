@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/models/employee';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationMessageComponent } from '../shared/confirmation-message/confirmation-message.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ListEmployeeComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private employeeService: EmployeeService, public dialog: MatDialog) { }
+  constructor(private employeeService: EmployeeService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -52,6 +53,9 @@ export class ListEmployeeComponent implements OnInit {
       if(result === 'accept'){
         this.employeeService.deleteEmployee(index);
         this.loadEmployees();
+        this.snackBar.open('Employee successfully eliminated!', '', {
+          duration: 3000
+        });
       }
       
     });
